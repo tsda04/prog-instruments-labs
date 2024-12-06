@@ -15,7 +15,7 @@ class GameLauncher:
             "Лабиринт": "games.maze"
         }
         self.game_functions: Dict[str, str] = {
-            "Угадай число": "guess_number",
+            "Угадай число": "guess_the_number",
             "Крестики-нолики": "tic_tac_toe",
             "Виселица": "hangman",
             "2048": "game_2048",
