@@ -1,7 +1,10 @@
 import importlib
 
-def main():
-    while True:
+
+class GameLauncher:
+
+    def display_games(self):
+        """Отображение доступных игр."""
         print("Доступные игры:")
         print("- Угадай число")
         print("- Крестики-нолики")
@@ -9,11 +12,8 @@ def main():
         print("- 2048")
         print("- Лабиринт")
 
-        selected_game = input("Введите название игры, в которую хотите поиграть (или 'выход' для завершения): ")
-
-        if selected_game.lower() == 'выход':
-            print("Спасибо за игру! До свидания!")
-            break
+    def launch_game(self, selected_game):
+        """Запуск выбранной игры."""
 
         game_module = None
         if selected_game == "Угадай число":
@@ -39,5 +39,21 @@ def main():
         else:
             print("Извините, такой игры нет. Пожалуйста, выберите из списка.")
 
+    def run(self):
+        """Основной игровой процесс."""
+        while True:
+            self.display_games()
+            selected_game = input(
+                "Введите название игры, в которую хотите поиграть (или 'выход' для завершения): "
+            )
+
+            if selected_game.lower() == "выход":
+                print("Спасибо за игру! До свидания!")
+                break
+
+            self.launch_game(selected_game)
+
+
 if __name__ == "__main__":
-    main()
+    game_launcher = GameLauncher()
+    game_launcher.run()
