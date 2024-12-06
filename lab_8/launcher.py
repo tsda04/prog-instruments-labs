@@ -3,39 +3,30 @@ import importlib
 
 class GameLauncher:
 
+    def __init__(self):
+        """Инициализация игрового лаунчера с доступными играми."""
+        self.games = {
+            "Угадай число": "games.guess_the_number",
+            "Крестики-нолики": "games.tic_tac_toe",
+            "Виселица": "games.hangman",
+            "2048": "games.game_2048",
+            "Лабиринт": "games.maze"
+        }
+
     def display_games(self):
         """Отображение доступных игр."""
         print("Доступные игры:")
-        print("- Угадай число")
-        print("- Крестики-нолики")
-        print("- Виселица")
-        print("- 2048")
-        print("- Лабиринт")
+        for game in self.games.keys():
+            print(f"- {game}")
 
     def launch_game(self, selected_game):
         """Запуск выбранной игры."""
+        game_module_name = self.games.get(selected_game)
 
-        game_module = None
-        if selected_game == "Угадай число":
-            game_module = importlib.import_module("games.guess_the_number")
-            game_module.guess_the_number()
-
-        elif selected_game == "Крестики-нолики":
-            game_module = importlib.import_module("games.tic_tac_toe")
-            game_module.tic_tac_toe()
-
-        elif selected_game == "Виселица":
-            game_module = importlib.import_module("games.hangman")
-            game_module.hangman()
-
-        elif selected_game == "2048":
-            game_module = importlib.import_module("games.game_2048")
-            game_module.game_2048()
-
-        elif selected_game == "Лабиринт":
-            game_module = importlib.import_module("games.maze")
-            game_module.maze()
-
+        if game_module_name:
+            game_module = importlib.import_module(game_module_name)
+            game_module_function = getattr(game_module, selected_game.replace(" ", "_").lower())
+            game_module_function()
         else:
             print("Извините, такой игры нет. Пожалуйста, выберите из списка.")
 
