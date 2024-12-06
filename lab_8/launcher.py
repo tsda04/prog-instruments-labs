@@ -1,11 +1,13 @@
 import importlib
+from typing import Dict
 
 
 class GameLauncher:
+    """Класс для управления запуском игр."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Инициализация игрового лаунчера с доступными играми."""
-        self.games = {
+        self.games: Dict[str, str] = {
             "Угадай число": "games.guess_the_number",
             "Крестики-нолики": "games.tic_tac_toe",
             "Виселица": "games.hangman",
@@ -13,14 +15,19 @@ class GameLauncher:
             "Лабиринт": "games.maze"
         }
 
-    def display_games(self):
+    def display_games(self) -> None:
         """Отображение доступных игр."""
         print("Доступные игры:")
         for game in self.games.keys():
             print(f"- {game}")
 
-    def launch_game(self, selected_game):
-        """Запуск выбранной игры."""
+    def launch_game(self, selected_game: str) -> None:
+        """
+        Запуск выбранной игры.
+
+        Args:
+            selected_game (str): Название выбранной игры.
+        """
         game_module_name = self.games.get(selected_game)
 
         if game_module_name:
@@ -30,7 +37,7 @@ class GameLauncher:
         else:
             print("Извините, такой игры нет. Пожалуйста, выберите из списка.")
 
-    def run(self):
+    def run(self) -> None:
         """Основной игровой процесс."""
         while True:
             self.display_games()
