@@ -29,7 +29,8 @@ class GuessTheNumber:
             self.check_guess(guess)
 
     def check_guess(self, guess: int) -> None:
-        """Проверка угаданного числа и вывод подсказок.
+        """
+        Проверка угаданного числа и вывод подсказок.
 
         Args:
             guess (int): Угаданное число игроком.

@@ -1,34 +1,54 @@
-import random
 import os
+import random
+from typing import List
 
 
 class Game2048:
-    def __init__(self):
-        self.board = self.init_game()
+    def __init__(self) -> None:
+        """Инициализация игры 2048 и создание начальной игровой доски."""
+        self.board: List[List[int]] = self.init_game()
 
-    def init_game(self):
-        """Инициализация игровой доски."""
+    def init_game(self) -> List[List[int]]:
+        """
+        Инициализация игровой доски.
+
+        Returns:
+            List[List[int]]: Начальная игровая доска 4x4.
+        """
         board = [[0] * 4 for _ in range(4)]
         self.add_new_tile(board)
         self.add_new_tile(board)
         return board
 
-    def add_new_tile(self, board):
-        """Добавление новой плитки (2 или 4) на доску."""
+    def add_new_tile(self, board: List[List[int]]) -> None:
+        """
+        Добавление новой плитки (2 или 4) на доску.
+
+        Args:
+            board (List[List[int]]): Игровая доска.
+        """
         x, y = random.randint(0, 3), random.randint(0, 3)
         while board[x][y] != 0:
             x, y = random.randint(0, 3), random.randint(0, 3)
         board[x][y] = random.choice([2, 4])
 
-    def print_board(self):
+    def print_board(self) -> None:
         """Вывод игровой доски на экран."""
         os.system("cls" if os.name == "nt" else "clear")
         for row in self.board:
             print("\t".join(str(num) if num != 0 else "." for num in row))
             print()
 
-    def slide_and_merge(self, row):
-        """Сдвиг и объединение плиток в строке."""
+    def slide_and_merge(self, row: List[int]) -> List[int]:
+        """
+        Сдвиг и объединение плиток в строке.
+
+        Args:
+            row (List[int]): Строка плиток.
+
+        Returns:
+            List[int]: Обновленная строка плиток после сдвига и объединения.
+        """
         new_row = [num for num in row if num != 0]
         merged_row = []
         skip = False
@@ -46,8 +66,16 @@ class Game2048:
         merged_row += [0] * (len(row) - len(merged_row))
         return merged_row
 
-    def move(self, direction):
-        """Перемещение плиток в заданном направлении."""
+    def move(self, direction: str) -> List[List[int]]:
+        """
+        Перемещение плиток в заданном направлении.
+
+        Args:
+            direction (str): Направление движения ('w', 'a', 's', 'd').
+
+        Returns:
+            List[List[int]]: Обновленная игровая доска после перемещения.
+        """
         board = self.board
         if direction in ("w", "s"):
             board = [list(row) for row in zip(*board)]  # Транспонируем для вертикального движения
@@ -68,8 +96,13 @@ class Game2048:
 
         return new_board
 
-    def is_game_over(self):
-        """Проверка, закончилась ли игра."""
+    def is_game_over(self) -> bool:
+        """
+        Проверка, закончилась ли игра.
+
+        Returns:
+            bool: True, если игра окончена, иначе False.
+        """
         for row in self.board:
             if 2048 in row:
                 print("Поздравляем! Вы выиграли!")
@@ -84,7 +117,7 @@ class Game2048:
         print("Игра окончена! Попробуйте еще раз.")
         return True
 
-    def play(self):
+    def play(self) -> None:
         """Основная функция игры 2048."""
         while True:
             self.print_board()
@@ -106,6 +139,7 @@ class Game2048:
                 print("Неверный ввод! Пожалуйста, используйте w/a/s/d или q.")
 
 
-def game_2048():
+def game_2048() -> None:
+    """Запуск игры 2048."""
     game = Game2048()
     game.play()
