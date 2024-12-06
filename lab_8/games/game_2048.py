@@ -2,11 +2,14 @@ import os
 import random
 from typing import List
 
+from .controls import Controls
+
 
 class Game2048:
     def __init__(self) -> None:
         """Инициализация игры 2048 и создание начальной игровой доски."""
         self.board: List[List[int]] = self.init_game()
+        self.controls = Controls()  # Инициализация управления
 
     def init_game(self) -> List[List[int]]:
         """
@@ -121,11 +124,10 @@ class Game2048:
         """Основная функция игры 2048."""
         while True:
             self.print_board()
-            move_input = input(
-                "Введите направление (w/a/s/d для вверх/влево/вниз/вправо, q для выхода): "
-            ).lower()
+            self.controls.display_controls()
+            move_input = input("Введите направление (w/a/s/d для вверх/влево/вниз/вправо, q для выхода): ").lower()
 
-            if move_input in ("w", "a", "s", "d"):
+            if move_input in self.controls.key_map:
                 new_board = self.move(move_input)
                 if new_board != self.board:
                     self.board = new_board

@@ -1,8 +1,11 @@
 from typing import List
 
+from .controls import Controls
+
 
 class MazeGame:
     def __init__(self) -> None:
+        """Инициализация игры в лабиринт."""
         self.maze_layout: List[str] = [
             "#########",
             "#       #",
@@ -14,6 +17,7 @@ class MazeGame:
         ]
         self.player_pos: List[int] = [1, 1]  # Начальная позиция игрока
         self.exit_pos: List[int] = [5, 7]  # Позиция выхода
+        self.controls = Controls()  # Инициализация управления
 
     def print_maze(self) -> None:
         """Отображение лабиринта с игроком."""
@@ -39,22 +43,22 @@ class MazeGame:
         """Основной игровой процесс."""
         while True:
             self.print_maze()
+            self.controls.display_controls()  # Вывод управления
 
             if self.player_pos == self.exit_pos:
                 print("Поздравляю! Вы нашли выход!")
                 break
 
-            move = input(
-                "Введите ваше движение (W - вверх, S - вниз, A - влево, D - вправо): "
-            ).lower()
+            move = input("Введите ваше движение (W - вверх, S - вниз, A - влево, D - вправо): ").lower()
+            direction = self.controls.get_direction(move)  # Получаем направление
 
-            if move == "w":  # Вверх
+            if direction == 'up':
                 new_pos = [self.player_pos[0] - 1, self.player_pos[1]]
-            elif move == "s":  # Вниз
+            elif direction == 'down':
                 new_pos = [self.player_pos[0] + 1, self.player_pos[1]]
-            elif move == "a":  # Влево
+            elif direction == 'left':
                 new_pos = [self.player_pos[0], self.player_pos[1] - 1]
-            elif move == "d":  # Вправо
+            elif direction == 'right':
                 new_pos = [self.player_pos[0], self.player_pos[1] + 1]
             else:
                 print("Неверное движение! Попробуйте снова.")
