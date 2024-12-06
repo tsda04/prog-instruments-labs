@@ -18,7 +18,8 @@ class TicTacToe:
         print(f"{self.board[6]} | {self.board[7]} | {self.board[8]}")
 
     def check_winner(self) -> Optional[str]:
-        """Проверка на наличие победителя.
+        """
+        Проверка на наличие победителя.
 
         Returns:
             str | None: Возвращает 'X' или 'O' в случае победы, иначе None.
