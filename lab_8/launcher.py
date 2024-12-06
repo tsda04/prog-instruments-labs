@@ -14,6 +14,13 @@ class GameLauncher:
             "2048": "games.game_2048",
             "Лабиринт": "games.maze"
         }
+        self.game_functions: Dict[str, str] = {
+            "Угадай число": "guess_number",
+            "Крестики-нолики": "tic_tac_toe",
+            "Виселица": "hangman",
+            "2048": "game_2048",
+            "Лабиринт": "maze"
+        }
 
     def display_games(self) -> None:
         """Отображение доступных игр."""
@@ -32,8 +39,12 @@ class GameLauncher:
 
         if game_module_name:
             game_module = importlib.import_module(game_module_name)
-            game_module_function = getattr(game_module, selected_game.replace(" ", "_").lower())
-            game_module_function()
+            function_name = self.game_functions.get(selected_game)
+            if function_name:
+                game_module_function = getattr(game_module, function_name)
+                game_module_function()
+            else:
+                print("Извините, функция игры не найдена.")
         else:
             print("Извините, такой игры нет. Пожалуйста, выберите из списка.")
 
