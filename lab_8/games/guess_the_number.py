@@ -2,11 +2,13 @@ import random
 
 
 class GuessTheNumber:
-    def __init__(self):
-        self.number_to_guess = random.randint(-100, 100)  # Изменено на диапазон от -100 до 100
-        self.attempts = 0
+    def __init__(self) -> None:
+        """Инициализация игры 'Угадай число' с загадкой числа."""
+        self.number_to_guess: int = random.randint(-100, 100)  # Изменено на диапазон от -100 до 100
+        self.attempts: int = 0
 
-    def play(self):
+    def play(self) -> None:
+        """Основной игровой процесс."""
         print("Добро пожаловать в игру 'Угадай число'!")
 
         while True:
@@ -26,9 +28,13 @@ class GuessTheNumber:
 
             self.check_guess(guess)
 
-    def check_guess(self, guess):
-        """Проверка угаданного числа и вывод подсказок."""
-        difference = abs(self.number_to_guess - guess)
+    def check_guess(self, guess: int) -> None:
+        """Проверка угаданного числа и вывод подсказок.
+
+        Args:
+            guess (int): Угаданное число игроком.
+        """
+        difference: int = abs(self.number_to_guess - guess)
 
         if difference == 0:
             print(
@@ -48,6 +54,7 @@ class GuessTheNumber:
             print("Вы далеко от правильного ответа. Попробуйте снова.")
 
 
-def guess_the_number():
+def guess_the_number() -> None:
+    """Запуск игры 'Угадай число'."""
     game = GuessTheNumber()
     game.play()
