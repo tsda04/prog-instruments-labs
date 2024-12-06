@@ -1,5 +1,6 @@
 from typing import List
 
+
 class MazeGame:
     def __init__(self) -> None:
         self.maze_layout: List[str] = [

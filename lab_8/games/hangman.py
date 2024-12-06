@@ -1,24 +1,30 @@
 import random
+from typing import List
 
 
 class Hangman:
-    def __init__(self):
-        self.words = [
+    def __init__(self) -> None:
+        """Инициализация игры в Виселицу с заданным списком слов."""
+        self.words: List[str] = [
             "python", 
             "программирование", 
             "виселица", 
             "игра", 
             "разработка"
         ]
-        self.word = random.choice(self.words)  # Загадать случайное слово
-        self.word_completion = "_" * len(self.word)  # Скрытое слово
-        self.guessed = False  # Угадано ли слово
-        self.guessed_letters = []  # Угаданные буквы
-        self.tries = 6  # Количество попыток
+        self.word: str = random.choice(self.words)  # Загадать случайное слово
+        self.word_completion: str = "_" * len(self.word)  # Скрытое слово
+        self.guessed: bool = False  # Угадано ли слово
+        self.guessed_letters: List[str] = []  # Угаданные буквы
+        self.tries: int = 6  # Количество попыток
 
-    def display_hangman(self):
-        """Отображение состояния виселицы в зависимости от оставшихся попыток."""
-        stages = [
+    def display_hangman(self) -> str:
+        """Отображение состояния виселицы в зависимости от оставшихся попыток.
+
+        Returns:
+            str: Текущий этап виселицы.
+        """
+        stages: List[str] = [
             """
                ------
                |    |
@@ -78,7 +84,7 @@ class Hangman:
         ]
         return stages[self.tries]
 
-    def play(self):
+    def play(self) -> None:
         """Основной игровой процесс."""
         print("Давайте играть в Виселицу!")
         print(self.display_hangman())
@@ -86,7 +92,7 @@ class Hangman:
         print("\n")
 
         while not self.guessed and self.tries > 0:
-            guess = input("Угадайте букву: ").lower()
+            guess: str = input("Угадайте букву: ").lower()
 
             if len(guess) != 1 or not guess.isalpha():
                 print("Пожалуйста, введите одну букву.")
@@ -123,6 +129,7 @@ class Hangman:
             print("Вы проиграли. Загаданное слово было:", self.word)
 
 
-def hangman():
+def hangman() -> None:
+    """Запуск игры в Виселицу."""
     game = Hangman()
     game.play()
