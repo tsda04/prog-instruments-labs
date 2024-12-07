@@ -32,7 +32,6 @@ def filter_logs_by_time(input_file: str, output_file: str, start_time: str, end_
     print(f"Фильтрация по времени завершена. Отфильтрованные логи сохранены в '{output_file}'.")
 
 
-
 def count_game_launches_wrapper(input_file: str, game_name: str) -> int:
     """
     Подсчитывает количество запусков игры.
