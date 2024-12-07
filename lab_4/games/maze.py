@@ -1,6 +1,10 @@
+import logging
 from typing import List
-
 from .controls import Controls
+
+
+# Получаем существующий логгер
+logger = logging.getLogger(__name__)
 
 
 class MazeGame:
@@ -18,6 +22,7 @@ class MazeGame:
         self.player_pos: List[int] = [1, 1]  # Начальная позиция игрока
         self.exit_pos: List[int] = [5, 7]  # Позиция выхода
         self.controls = Controls()  # Инициализация управления
+        logger.info("Игра в лабиринт начата.")
 
     def print_maze(self) -> None:
         """Отображение лабиринта с игроком."""
@@ -46,6 +51,7 @@ class MazeGame:
             self.controls.display_controls()  # Вывод управления
 
             if self.player_pos == self.exit_pos:
+                logger.info("Игрок нашел выход!")
                 print("Поздравляю! Вы нашли выход!")
                 break
 
@@ -61,13 +67,16 @@ class MazeGame:
             elif direction == 'right':
                 new_pos = [self.player_pos[0], self.player_pos[1] + 1]
             else:
+                logger.warning("Неверное движение: %s", move)
                 print("Неверное движение! Попробуйте снова.")
                 continue
 
             # Проверяем, можно ли переместиться на новую позицию
             if self.is_move_valid(new_pos):
                 self.player_pos = new_pos
+                logger.info("Игрок переместился на позицию: %s", new_pos)
             else:
+                logger.warning("Игрок попытался пройти через стену на позиции: %s", new_pos)
                 print("Вы не можете пройти через стену!")
 
 
