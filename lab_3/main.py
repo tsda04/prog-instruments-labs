@@ -2,6 +2,7 @@ import os
 from typing import List
 from log_filter import (
     filter_logs_time,
+    count_game_launches
 )
 
 
@@ -29,6 +30,21 @@ def filter_logs_by_time(input_file: str, output_file: str, start_time: str, end_
     print(f"Фильтрация по времени завершена. Отфильтрованные логи сохранены в '{output_file}'.")
 
 
+
+def count_game_launches_wrapper(input_file: str, game_name: str) -> int:
+    """
+    Подсчитывает количество запусков игры.
+
+    Parameters:
+        input_file (str): Путь к входному файлу с логами.
+        game_name (str): Название игры для подсчета.
+
+    Returns:
+        int: Количество запусков игры.
+    """
+    return count_game_launches(game_name, input_file)
+
+
 def main() -> None:
     input_file = 'logs.txt'                   # Имя входного файла с логами
     output_directory = 'output'               # Директория для выходных файлов
@@ -42,6 +58,13 @@ def main() -> None:
     end_time = '2024-12-07 19:09:40,000'    # Конечное время
     output_file1 = os.path.join(output_directory, 'filtered_logs1.txt')
     filter_logs_by_time(input_file, output_file1, start_time, end_time)
+
+    print("-----------------")
+
+    # Подсчет запусков игры
+    game_name = "2048"  # Название игры, которую нужно проверить
+    launch_count = count_game_launches_wrapper(input_file, game_name)
+    print(f"Игра '{game_name}' была запущена {launch_count} раз(а).")
 
     print("-----------------")
 
