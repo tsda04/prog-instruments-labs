@@ -115,7 +115,6 @@ def main() -> None:
         r'Пользователь ввел неверное направление:',
         r'Добавлена новая плитка \d+ на позицию',
         r'Доска после движения [wasd]:',
-        r'Объединены плитки \d+ и \d+ в \d+',
         r'Пользователь .*'
     ]
     filter_logs_by_regex_patterns(input_file, regex_patterns, output_directory)
