@@ -90,7 +90,6 @@ class Hangman:
         ]
         return stages[self.tries]
 
-
     def play(self) -> None:
         """Основной игровой процесс."""
         print("Давайте играть в Виселицу!")
