@@ -2,7 +2,8 @@ import os
 from typing import List
 from log_filter import (
     filter_logs_time,
-    count_game_launches
+    count_game_launches,
+    filter_logs_function,
 )
 
 
@@ -45,6 +46,19 @@ def count_game_launches_wrapper(input_file: str, game_name: str) -> int:
     return count_game_launches(game_name, input_file)
 
 
+def filter_logs_by_function(input_file: str, output_file: str, function_name: str) -> None:
+    """
+    Фильтрует логи по указанной функции и сохраняет результат в выходной файл.
+
+    Parameters:
+        input_file (str): Путь к входному файлу с логами.
+        output_file (str): Путь к выходному файлу для записи отфильтрованных логов.
+        function_name (str): Название функции для фильтрации.
+    """
+    filter_logs_function(function_name, input_file, output_file)
+    print(f"Фильтрация по функции '{function_name}' завершена. Отфильтрованные логи сохранены в '{output_file}'.")
+
+
 def main() -> None:
     input_file = 'logs.txt'                   # Имя входного файла с логами
     output_directory = 'output'               # Директория для выходных файлов
@@ -65,6 +79,13 @@ def main() -> None:
     game_name = "2048"  # Название игры, которую нужно проверить
     launch_count = count_game_launches_wrapper(input_file, game_name)
     print(f"Игра '{game_name}' была запущена {launch_count} раз(а).")
+
+    print("-----------------")
+
+    # Фильтрация по функции
+    output_file2 = os.path.join(output_directory, 'filtered_logs2.txt')
+    function_to_track = 'slide_and_merge'
+    filter_logs_by_function(input_file, output_file2, function_to_track)
 
     print("-----------------")
 
