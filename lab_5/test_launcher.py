@@ -3,6 +3,7 @@ from unittest.mock import patch, MagicMock
 from io import StringIO
 from launcher import GameLauncher
 
+
 class TestGameLauncher(unittest.TestCase):
 
     def setUp(self):
