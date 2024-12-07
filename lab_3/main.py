@@ -4,6 +4,7 @@ from log_filter import (
     filter_logs_time,
     count_game_launches,
     filter_logs_function,
+    filter_logs_by_regex
 )
 
 
@@ -59,6 +60,21 @@ def filter_logs_by_function(input_file: str, output_file: str, function_name: st
     print(f"Фильтрация по функции '{function_name}' завершена. Отфильтрованные логи сохранены в '{output_file}'.")
 
 
+def filter_logs_by_regex_patterns(input_file: str, patterns: List[str], output_directory: str) -> None:
+    """
+    Фильтрует логи по списку регулярных выражений и сохраняет результаты в выходные файлы.
+
+    Parameters:
+        input_file (str): Путь к входному файлу с логами.
+        patterns (List[str]): Список регулярных выражений для фильтрации.
+        output_directory (str): Директория для сохранения выходных файлов.
+    """
+    for i, pattern in enumerate(patterns, start=1):
+        output_file = os.path.join(output_directory, f'filtered_logs_{i}.txt')
+        filter_logs_by_regex(input_file, output_file, pattern)
+        print(f"Фильтрация по регулярному выражению '{pattern}' завершена. Отфильтрованные логи сохранены в '{output_file}'.")
+
+
 def main() -> None:
     input_file = 'logs.txt'                   # Имя входного файла с логами
     output_directory = 'output'               # Директория для выходных файлов
@@ -88,6 +104,24 @@ def main() -> None:
     filter_logs_by_function(input_file, output_file2, function_to_track)
 
     print("-----------------")
+
+    # Фильтрация по регулярным выражениям
+    regex_patterns: List[str] = [
+        r'игра \'Виселица\'',
+        r'Неверная буква:',
+        r'Пользователь угадал букву:',
+        r'Игрок проиграл\. Загаданное слово:',
+        r'Игра 2048 начата\.',
+        r'Пользователь ввел неверное направление:',
+        r'Добавлена новая плитка \d+ на позицию',
+        r'Доска после движения [wasd]:',
+        r'Объединены плитки \d+ и \d+ в \d+',
+        r'Пользователь .*'
+    ]
+    filter_logs_by_regex_patterns(input_file, regex_patterns, output_directory)
+
+    print("-----------------")
+
 
 
 if __name__ == "__main__":

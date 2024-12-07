@@ -75,3 +75,21 @@ def filter_logs_function(function_name: str, input_file: str, output_file: str) 
         for line in infile:
             if pattern.match(line):
                 outfile.write(line)
+
+
+def filter_logs_by_regex(input_file: str, output_file: str, regex_pattern: str) -> None:
+    """
+    Фильтрует логи из файла на основе регулярного выражения и записывает отфильтрованные строки в новый файл.
+
+    Parameters:
+        input_file (str): Путь к входному файлу с логами.
+        output_file (str): Путь к выходному файлу для записи отфильтрованных логов.
+        regex_pattern (str): Регулярное выражение для фильтрации логов.
+
+    Returns:
+        None: Функция ничего не возвращает, но записывает отфильтрованные логи в выходной файл.
+    """
+    with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', encoding='utf-8') as outfile:
+        for line in infile:
+            if re.search(regex_pattern, line):
+                outfile.write(line)
