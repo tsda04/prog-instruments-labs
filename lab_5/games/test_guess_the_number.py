@@ -1,3 +1,4 @@
+import pytest
 import unittest
 from unittest.mock import patch
 from io import StringIO
@@ -42,14 +43,45 @@ class TestGuessTheNumber(unittest.TestCase):
 
         self.assertIn("Очень горячо! Вы очень близки к правильному числу.", output)
 
-    @patch('builtins.input', side_effect=['abc', 'выход'])
-    def test_invalid_input(self, mock_input):
-        """Тестирование недопустимого ввода."""
-        with patch('sys.stdout', new=StringIO()) as fake_out:
-            self.game.play()
-            output = fake_out.getvalue().strip()
 
-        self.assertIn("Пожалуйста, введите корректное число.", output)
+@pytest.fixture
+def game():
+    """Создание экземпляра игры для тестирования."""
+    return GuessTheNumber()
+
+
+def test_initial_number_range(game):
+    """Тестирование начального диапазона загаданного числа."""
+    assert -100 <= game.number_to_guess <= 100
+
+
+@pytest.mark.parametrize("guess, expected_output", [
+    (45, "Очень горячо! Вы очень близки к правильному числу."),
+    (55, "Очень горячо! Вы очень близки к правильному числу."),
+    (40, "Горячо! Вы близки к правильному числу."),
+    (60, "Горячо! Вы близки к правильному числу."),
+    (30, "Тепло. Вы находитесь в пределах 20."),
+    (70, "Тепло. Вы находитесь в пределах 20."),
+    (20, "Слишком маленькое число. Попробуйте снова."),
+])
+def test_check_guess_various(game, guess, expected_output):
+    """Параметризованный тест для проверки различных угаданных чисел."""
+    game.number_to_guess = 50  # Установим число для теста
+    game.attempts = 0
+    with patch('sys.stdout', new=StringIO()) as fake_out:
+        game.check_guess(guess)
+        output = fake_out.getvalue().strip()
+    assert output == expected_output
+
+
+def test_invalid_input(game):
+    """Тестирование обработки некорректного ввода."""
+    with patch('builtins.input', side_effect=["abc", "выход"]), \
+         patch('sys.stdout', new=StringIO()) as fake_out:
+        game.play()
+        output = fake_out.getvalue().strip()
+    assert "Пожалуйста, введите корректное число." in output
+    assert "Вы вышли из игры." in output
 
 
 if __name__ == '__main__':

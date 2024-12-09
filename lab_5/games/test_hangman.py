@@ -1,3 +1,4 @@
+import pytest
 import unittest
 from unittest.mock import patch
 from hangman import Hangman
@@ -31,6 +32,18 @@ class TestHangman(unittest.TestCase):
         self.game.word = "abc"  # Установим слово для теста
         self.game.play()
         self.assertEqual(len(self.game.guessed_letters), 3)  # Проверяем, что буква 'a' не была добавлена повторно
+
+
+@pytest.fixture
+def game():
+    return Hangman()
+
+
+def test_initialization(game):
+    assert game.word_completion == "_" * len(game.word)
+    assert game.tries == 6
+    assert game.guessed_letters == []
+    assert game.guessed is False
 
 
 if __name__ == '__main__':
